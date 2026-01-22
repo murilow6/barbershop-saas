@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{--bg:#0F0F0F;--wood:#2B1E14;--gold:#C9A14A;--sand:#E6D3B1;}
+html,body{height:100%;}
+body{background:radial-gradient(1200px 600px at 20% 0%, rgba(201,161,74,.10), transparent 60%),var(--bg);color:#F5F5F5;}
+.btn3d{box-shadow:0 10px 0 rgba(0,0,0,.35),0 18px 32px rgba(0,0,0,.35);}
+.btn3d:hover{transform:translateY(-2px);}
+.btn3d:active{transform:translateY(0);box-shadow:0 6px 0 rgba(0,0,0,.35),0 12px 20px rgba(0,0,0,.35);}
+
+@layer utilities {
+  .tech-glow {
+    box-shadow: 0 0 20px -5px rgba(212, 175, 55, 0.2);
+  }
+
+  .tech-glow-hover:hover {
+    box-shadow: 0 0 30px -5px rgba(212, 175, 55, 0.4);
+    @apply border-amber-500/30;
+  }
+
+  .glass-premium {
+    @apply bg-black/80 md:bg-white/[0.02] border border-white/10 shadow-[inner_0_1px_rgba(255,255,255,0.05)];
+  }
+
+  @supports (backdrop-filter: blur(1px)) {
+    .glass-premium {
+       @apply bg-white/[0.02] backdrop-blur-xl;
+    }
+  }
+
+  /* Optimized hover for desktop only */
+  @media (hover: hover) {
+    .btn3d:hover { transform: translateY(-2px); }
+    .tech-glow-hover:hover {
+        box-shadow: 0 0 30px -5px rgba(212, 175, 55, 0.4);
+        @apply border-amber-500/30;
+    }
+  }
+
+  /* Accessibility: Prefers Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    /* Avoid heavy SVG filter on mobile if possible */
+    @media (max-width: 768px) {
+        opacity: 0.015;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 15s ease infinite;
+  }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}

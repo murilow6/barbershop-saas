@@ -1,0 +1,90 @@
+
+> barbershop-saas@0.1.0 dev
+> next dev
+
+ ⚠ `experimental.typedRoutes` has been moved to `typedRoutes`. Please update your next.config.mjs file accordingly.
+ ⚠ Port 3000 is in use by process 11058, using available port 3001 instead.
+   ▲ Next.js 15.5.9
+   - Local:        http://localhost:3001
+   - Network:      http://192.0.0.2:3001
+   - Environments: .env
+   - Experiments (use with caution):
+     ✓ typedRoutes
+
+ ✓ Starting...
+ ✓ Ready in 1948ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1757ms (1410 modules)
+ GET / 200 in 2374ms
+ ✓ Compiled in 2.4s (615 modules)
+ ✓ Compiled in 2.8s (615 modules)
+ ✓ Compiled in 3.4s (629 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from /Users/murilooliveira/Documents/barbershop-saas/.next/cache/webpack/client-development.pack.gz: Error: incorrect header check
+ ✓ Compiled in 1986ms (629 modules)
+ ⨯ Module not found: Error: Can't resolve 'next-flight-client-entry-loader' in '/Users/murilooliveira/Documents/barbershop-saas'
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: Cannot find module '@swc/helpers/package.json'
+Require stack:
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/create-compiler-aliases.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/build/webpack-config.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/router-server.js
+- /Users/murilooliveira/Documents/barbershop-saas/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}

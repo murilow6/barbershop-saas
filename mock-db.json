@@ -1,0 +1,148 @@
+{
+  "clients": [
+    {
+      "id": "client_2mbt5yx19",
+      "created_at": "2026-01-19T17:59:36.065Z",
+      "name": "JOAO CARLOS",
+      "phone": "87981042499"
+    },
+    {
+      "id": "client_adjz0qb61",
+      "created_at": "2026-01-20T20:27:26.176Z",
+      "name": "Murilo",
+      "phone": "87091042499"
+    },
+    {
+      "id": "client_1ks2ptd3a",
+      "created_at": "2026-01-20T21:25:40.186Z",
+      "name": "Karlos ",
+      "phone": "66403i403i450",
+      "status": "visitante"
+    },
+    {
+      "id": "client_overdue_1",
+      "name": "Cliente Antigo Teste",
+      "phone": "11912345678",
+      "status": "fidelizado",
+      "created_at": "2025-10-01T10:00:00.000Z",
+      "loyalty_points": 50
+    },
+    {
+      "id": "client_fpyjlg5wt",
+      "created_at": "2026-01-21T20:31:39.755Z",
+      "name": "Test User Automation",
+      "phone": "5511999999999",
+      "status": "visitante"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "appt_1ncrdwx2d",
+      "created_at": "2026-01-19T17:59:36.069Z",
+      "client_id": "client_2mbt5yx19",
+      "barber_id": "b1",
+      "service_id": "s1",
+      "starts_at": "2026-01-23T14:00:00",
+      "status": "pending"
+    },
+    {
+      "id": "appt_tokknl9ua",
+      "created_at": "2026-01-19T19:57:29.641Z",
+      "client_id": "client_2mbt5yx19",
+      "barber_id": "b2",
+      "service_id": "s1",
+      "starts_at": "2026-01-23T10:30:00",
+      "status": "pending"
+    },
+    {
+      "id": "appt_3l3kud8n5",
+      "created_at": "2026-01-20T20:27:26.177Z",
+      "client_id": "client_adjz0qb61",
+      "barber_id": "b1",
+      "service_id": "s1",
+      "starts_at": "2026-01-21T09:30:00",
+      "status": "pending"
+    },
+    {
+      "id": "appt_ky5lkksi1",
+      "created_at": "2026-01-20T21:25:40.186Z",
+      "client_id": "client_1ks2ptd3a",
+      "barber_id": "b1",
+      "service_id": "s1",
+      "branch_id": "br1",
+      "starts_at": "2026-01-22T11:30:00",
+      "status": "pending"
+    },
+    {
+      "id": "appt_old_1",
+      "client_id": "client_overdue_1",
+      "service_id": "s1",
+      "barber_id": "b1",
+      "branch_id": "br1",
+      "starts_at": "2025-11-01T10:00:00",
+      "status": "completed",
+      "created_at": "2025-10-31T10:00:00.000Z"
+    },
+    {
+      "id": "appt_old_2",
+      "client_id": "client_overdue_1",
+      "service_id": "s1",
+      "barber_id": "b1",
+      "branch_id": "br1",
+      "starts_at": "2025-11-16T10:00:00",
+      "status": "completed",
+      "created_at": "2025-11-15T10:00:00.000Z"
+    },
+    {
+      "id": "appt_ys8q8bchd",
+      "created_at": "2026-01-21T20:31:39.755Z",
+      "client_id": "client_fpyjlg5wt",
+      "barber_id": "b1",
+      "service_id": "s1",
+      "branch_id": "br1",
+      "starts_at": "2026-01-21T19:31:39.755Z",
+      "status": "completed",
+      "finished_at": "2026-01-21T19:56:39.755Z",
+      "thank_you_sent_at": "2026-01-21T20:34:55.778Z"
+    }
+  ],
+  "branches": [
+    {
+      "id": "br1",
+      "name": "Sede Principal - Magano",
+      "address": "Rua das Flores, 123",
+      "phone": "11 99999-9999",
+      "hours": "Seg-Sáb: 09:00 - 20:00",
+      "active": true,
+      "created_at": "2026-01-20T21:06:10.820Z"
+    },
+    {
+      "id": "br2",
+      "name": "Unidade Viana Moura",
+      "address": "Av. das Americas, 500",
+      "phone": "11 88888-8888",
+      "hours": "Todos os dias: 10:00 - 22:00",
+      "active": true,
+      "created_at": "2026-01-20T21:06:10.820Z"
+    }
+  ],
+  "customerNotes": [
+    {
+      "id": "note_mr5k69911",
+      "created_at": "2026-01-21T20:41:19.020Z",
+      "client_id": "client_adjz0qb61",
+      "text": "veio ontem",
+      "author": "Admin"
+    }
+  ],
+  "reminders": [
+    {
+      "id": "rem_n976lbv9x",
+      "client_id": "client_fpyjlg5wt",
+      "service_id": "s1",
+      "sent_at": "2026-01-21T20:34:55.778Z",
+      "estimated_interval_days": 0,
+      "channel": "whatsapp"
+    }
+  ]
+}
