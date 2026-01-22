@@ -56,7 +56,7 @@ export async function createSupabaseAppointment(data: any) {
             starts_at: data.starts_at,
             status: data.status || 'pending'
         }])
-        .select()
+        .select('*, services(name), barbers(name)')
         .single();
 
     if (error) throw error;
@@ -110,11 +110,7 @@ export async function updateSupabaseAppointment(id: string, updates: any) {
 
 // --- Branches ---
 
-export async function getAllSupabaseBranches() {
-    // For now, return mock branches as they are static or need a table
-    // If you created a branches table, query it here.
-    return MOCK_BRANCHES;
-}
+
 
 export async function createSupabaseBranch(data: any) {
     // Placeholder if no table exists yet
@@ -223,9 +219,45 @@ export async function getEnrichedSupabaseAppointments() {
     return getSupabaseAppointments(); // Re-use existing enriched getter
 }
 
-export async function getSupabaseBranchById(id: string) {
-    return MOCK_BRANCHES.find(b => b.id === id); // Mock for now
+// --- Branches ---
+
+export async function getAllSupabaseBranches() {
+    const supabase = createClient();
+    const { data } = await supabase.from('branches').select('*').eq('active', true);
+    return (data || []) as Branch[];
 }
+
+export async function getSupabaseBranchById(id: string) {
+    const supabase = createClient();
+    const { data } = await supabase.from('branches').select('*').eq('id', id).single();
+    return data as Branch;
+}
+
+// --- Services & Barbers ---
+
+export async function getAllSupabaseServices() {
+    const supabase = createClient();
+    const { data } = await supabase.from('services').select('*').order('price_cents', { ascending: true });
+
+    // Adapt to UI model
+    return (data || []).map((s: any) => ({
+        id: s.id,
+        name: s.name,
+        price: `R$ ${(s.price_cents / 100).toFixed(2).replace('.', ',')}`,
+        price_cents: s.price_cents,
+        duration: `${s.duration_minutes} min`,
+        duration_minutes: s.duration_minutes,
+        description: s.description || '',
+        branch_id: s.branch_id
+    }));
+}
+
+export async function getAllSupabaseBarbers() {
+    const supabase = createClient();
+    const { data } = await supabase.from('barbers').select('*').eq('active', true);
+    return (data || []) as Barber[];
+}
+
 
 // --- Reminders ---
 

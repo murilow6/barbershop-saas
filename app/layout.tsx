@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
+import { SonnerToaster } from "@/components/ui/sonner-toaster";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="bg-black text-white antialiased">
         {children}
-        <Toaster position="top-center" richColors theme="dark" closeButton />
+        <SonnerToaster />
       </body>
     </html>
   );

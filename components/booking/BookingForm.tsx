@@ -36,9 +36,15 @@ export function BookingForm() {
   }, [supabase]);
 
   async function onSubmit() {
-    setLoading(true);
     setErr(null);
     setMsg(null);
+
+    // Validation
+    if (!barberId) return toast.warning("Selectione um barbeiro.");
+    if (!serviceId) return toast.warning("Selecione um serviço.");
+    if (!date || !time) return toast.warning("Escolha data e horário.");
+
+    setLoading(true);
 
     try {
       const result = await saveBookingAction({
@@ -117,7 +123,7 @@ export function BookingForm() {
       {msg ? <p className="mt-3 text-sm text-emerald-400">{msg}</p> : null}
 
       <div className="mt-6">
-        <Button onClick={onSubmit} disabled={loading || !barberId || !serviceId || !date || !time}>
+        <Button onClick={onSubmit} disabled={loading}>
           {loading ? "Agendando..." : "Confirmar agendamento"}
         </Button>
       </div>

@@ -22,12 +22,20 @@ import {
     UserPlus,
     MapPin
 } from "lucide-react";
-import { MOCK_SERVICES, MOCK_BARBERS, Branch } from "@/lib/mockConstants";
-import { saveBookingAction, getAllMockBranchesAction } from "@/lib/actions";
+import { MOCK_SERVICES, MOCK_BARBERS, Branch, Service, Barber } from "@/lib/mockConstants";
+import { saveBookingAction, getAllMockBranchesAction, getServicesAction, getBarbersAction } from "@/lib/actions";
 
 type Step = 'branch' | 'service' | 'barber' | 'datetime' | 'info' | 'confirmation';
 
-export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
+export function BookingWizard({
+    branches = [],
+    services = [],
+    barbers = []
+}: {
+    branches?: Branch[],
+    services?: Service[],
+    barbers?: Barber[]
+}) {
     const searchParams = useSearchParams();
     const serviceFromUrl = searchParams.get('service');
 
@@ -40,27 +48,48 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
     const [clientName, setClientName] = useState('');
     const [clientPhone, setClientPhone] = useState('');
     const [loading, setLoading] = useState(false);
-    const [internalBranches, setInternalBranches] = useState<Branch[]>(branches);
     const [appointmentId, setAppointmentId] = useState('');
 
+    // Internal state to hold data (either passed via props or fetched)
+    const [internalBranches, setInternalBranches] = useState<Branch[]>(branches);
+    const [internalServices, setInternalServices] = useState<Service[]>(services);
+    const [internalBarbers, setInternalBarbers] = useState<Barber[]>(barbers);
+
     useEffect(() => {
+        // Fetch Branches if missing
         if (branches.length > 0) {
             setInternalBranches(branches);
         } else {
             getAllMockBranchesAction().then(res => {
-                if (res.success && res.branches) {
-                    setInternalBranches(res.branches);
-                }
+                if (res.success && res.branches) setInternalBranches(res.branches);
             });
         }
-    }, [branches]);
+
+        // Fetch Services if missing
+        if (services.length > 0) {
+            setInternalServices(services);
+        } else {
+            getServicesAction().then(res => {
+                if (res.success && res.services) setInternalServices(res.services);
+            });
+        }
+
+        // Fetch Barbers if missing
+        if (barbers.length > 0) {
+            setInternalBarbers(barbers);
+        } else {
+            getBarbersAction().then(res => {
+                if (res.success && res.barbers) setInternalBarbers(res.barbers);
+            });
+        }
+    }, [branches, services, barbers]);
 
     useEffect(() => {
-        if (serviceFromUrl && MOCK_SERVICES.some(s => s.id === serviceFromUrl)) {
+        if (serviceFromUrl && internalServices.some(s => s.id === serviceFromUrl)) {
             setSelectedService(serviceFromUrl);
             setStep('barber');
         }
-    }, [serviceFromUrl]);
+    }, [serviceFromUrl, internalServices]);
 
     // Auto-select removed from here as it's now handled with internalBranches
 
@@ -102,11 +131,26 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
     };
 
     const nextStep = () => {
-        if (step === 'branch') setStep('service');
-        else if (step === 'service') setStep('barber');
-        else if (step === 'barber') setStep('datetime');
-        else if (step === 'datetime') setStep('info');
-        else if (step === 'info') handleSubmit();
+        if (step === 'branch') {
+            if (!selectedBranch) return toast.warning("Por favor, selecione uma unidade.");
+            setStep('service');
+        }
+        else if (step === 'service') {
+            if (!selectedService) return toast.warning("Por favor, selecione um serviço.");
+            setStep('barber');
+        }
+        else if (step === 'barber') {
+            if (!selectedBarber) return toast.warning("Por favor, selecione um barbeiro.");
+            setStep('datetime');
+        }
+        else if (step === 'datetime') {
+            if (!selectedDate || !selectedTime) return toast.warning("Por favor, escolha data e horário.");
+            setStep('info');
+        }
+        else if (step === 'info') {
+            if (!clientName || !clientPhone) return toast.warning("Preencha seu nome e telefone para continuar.");
+            handleSubmit();
+        }
     };
 
     const prevStep = () => {
@@ -124,8 +168,8 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
         }
     }
 
-    const filteredServices = MOCK_SERVICES.filter(s => !selectedBranch || s.branch_id === selectedBranch);
-    const filteredBarbers = MOCK_BARBERS.filter(b => !selectedBranch || b.branch_id === selectedBranch);
+    const filteredServices = internalServices.filter(s => !selectedBranch || s.branch_id === selectedBranch);
+    const filteredBarbers = internalBarbers.filter(b => !selectedBranch || b.branch_id === selectedBranch);
     const activeBranches = internalBranches.filter(b => b.active);
 
     // Auto-select branch if only one is active
@@ -137,8 +181,8 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
     }, [activeBranches, selectedBranch]);
 
     if (step === 'confirmation') {
-        const service = MOCK_SERVICES.find(s => s.id === selectedService);
-        const barber = MOCK_BARBERS.find(b => b.id === selectedBarber);
+        const service = internalServices.find(s => s.id === selectedService);
+        const barber = internalBarbers.find(b => b.id === selectedBarber);
         const branch = internalBranches.find(b => b.id === selectedBranch);
 
         return (
@@ -497,7 +541,7 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
 
                 <Button
                     onClick={nextStep}
-                    disabled={!canProceed() || loading}
+                    disabled={loading}
                     className="w-full sm:flex-1 bg-amber-600 hover:bg-amber-500 text-stone-950 font-black h-20 sm:h-16 text-xl sm:text-lg rounded-2xl btn3d tech-glow shadow-xl shadow-amber-600/20"
                 >
                     {loading ? (

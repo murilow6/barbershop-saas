@@ -31,7 +31,22 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
+import { getDashboardStatsAction } from "@/lib/actions";
+import { useEffect, useState } from "react";
+
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    activeClients: 0,
+    appointmentsCount: 0,
+    revenue: 0,
+    occupancyRate: 0
+  });
+
+  useEffect(() => {
+    getDashboardStatsAction().then(res => {
+      if (res.success && res.stats) setStats(res.stats);
+    });
+  }, []);
   return (
     <div className="space-y-10">
       <SectionHeader
@@ -48,33 +63,33 @@ export default function AdminDashboard() {
         <motion.div variants={item}>
           <KpiCard
             label="Clientes Ativos"
-            value="156"
+            value={stats.activeClients.toString()}
             icon={Users}
-            trend={{ value: "4.5%", isUp: true }}
+            trend={{ value: "0%", isUp: true }}
           />
         </motion.div>
         <motion.div variants={item}>
           <KpiCard
             label="Agendamentos"
-            value="24"
+            value={stats.appointmentsCount.toString()}
             icon={CalendarClock}
-            trend={{ value: "12%", isUp: true }}
+            trend={{ value: "0%", isUp: true }}
           />
         </motion.div>
         <motion.div variants={item}>
           <KpiCard
-            label="Faturamento Mes"
-            value="R$ 12.450"
+            label="Faturamento Total"
+            value={`R$ ${stats.revenue.toFixed(2).replace('.', ',')}`}
             icon={TrendingUp}
-            trend={{ value: "18%", isUp: true }}
+            trend={{ value: "0%", isUp: true }}
           />
         </motion.div>
         <motion.div variants={item}>
           <KpiCard
-            label="Taxa de Retenção"
-            value="84%"
+            label="Taxa de Ocupação"
+            value={`${stats.occupancyRate}%`}
             icon={UserRound}
-            trend={{ value: "2%", isUp: true }}
+            trend={{ value: "0%", isUp: false }}
           />
         </motion.div>
       </motion.div>
@@ -100,11 +115,11 @@ export default function AdminDashboard() {
             <div className="mt-8 space-y-2 w-full">
               <div className="flex justify-between text-sm">
                 <span className="text-stone-400">Horários Reservados</span>
-                <span className="text-amber-500 font-bold">18</span>
+                <span className="text-amber-500 font-bold">{stats.appointmentsCount}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-400">Horários Disponíveis</span>
-                <span className="text-stone-600 font-bold">6</span>
+                <span className="text-stone-400">Total Agendamentos</span>
+                <span className="text-stone-600 font-bold">{stats.appointmentsCount}</span>
               </div>
             </div>
           </div>

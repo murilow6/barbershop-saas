@@ -10,9 +10,13 @@ import {
     deleteSupabaseClient,
     deleteSupabaseBranch,
     updateSupabaseBranch,
-    getAllSupabaseBranches
+    getAllSupabaseBranches,
+    getAllSupabaseServices,
+    getAllSupabaseBarbers,
+    getAllSupabaseClients,
+    getSupabaseAppointments
 } from "./supabaseDb";
-import { MOCK_SERVICES, MOCK_BARBERS, Client, Branch, CustomerNote } from "./mockConstants";
+import { Client, Branch, CustomerNote } from "./mockConstants";
 import { processRetentionReminders } from "./retention";
 import { notify } from "./notificationSystem";
 
@@ -45,18 +49,14 @@ export async function saveBookingAction(formData: {
         status: 'pending',
     });
 
-    const service = MOCK_SERVICES.find(s => s.id === formData.serviceId);
-    const barber = MOCK_BARBERS.find(b => b.id === formData.barberId);
-
-
     // Unified Notification
     await notify({
         type: 'APPOINTMENT_NEW',
         clientName: formData.clientName,
         clientPhone: formData.clientPhone,
         meta: {
-            serviceName: service?.name,
-            barberName: barber?.name,
+            serviceName: (appointment as any).services?.name, // naming convention from supabase join
+            barberName: (appointment as any).barbers?.name,
             date: formData.date,
             time: formData.time
         }
@@ -116,10 +116,34 @@ export async function deleteMockBranchAction(id: string) {
     return { success: true };
 }
 
+// --- Data Fetchers for Client Components ---
+
 export async function getAllMockBranchesAction() {
-    "use server";
     const branches = await getAllSupabaseBranches();
-    return { success: true, branches };
+
+    // Transform to match any expected "Mock" shape if needed, or just return
+    return {
+        success: true,
+        branches: branches
+    };
+}
+
+export async function getServicesAction() {
+    try {
+        const services = await getAllSupabaseServices();
+        return { success: true, services };
+    } catch (error) {
+        return { success: false, services: [] };
+    }
+}
+
+export async function getBarbersAction() {
+    try {
+        const barbers = await getAllSupabaseBarbers();
+        return { success: true, barbers };
+    } catch (error) {
+        return { success: false, barbers: [] };
+    }
 }
 
 export async function runRetentionJobAction() {
@@ -127,3 +151,47 @@ export async function runRetentionJobAction() {
     const results = await processRetentionReminders();
     return { success: true, results };
 }
+
+export async function getDashboardStatsAction() {
+    "use server";
+    try {
+        const appointments = await getSupabaseAppointments();
+        const clients = await getAllSupabaseClients();
+        const services = await getAllSupabaseServices();
+
+        // Calculate Revenue (Sum of finished appointments price)
+        const revenueCents = appointments
+            .filter((a: any) => a.status === 'finished' || a.status === 'confirmed') // Considering confirmed as potential revenue for forecast
+            .reduce((total: number, a: any) => {
+                const service = services.find((s: any) => s.id === a.service_id);
+                return total + (service?.price_cents || 0);
+            }, 0);
+
+        const revenue = revenueCents / 100;
+
+        // Active Clients (Last 30 days or just total for simple MVP)
+        const activeClients = clients.length;
+
+        // Appointments Count
+        const appointmentsCount = appointments.length;
+
+        // Occupancy (Simple logic: appointments / total slots)
+        // For now, hardcode slots or dynamic calculation. Let's return raw count.
+
+        return {
+            success: true,
+            stats: {
+                activeClients,
+                appointmentsCount,
+                revenue,
+                occupancyRate: 0 // advanced logic needed later
+            }
+        };
+    } catch (error) {
+        return {
+            success: false,
+            stats: { activeClients: 0, appointmentsCount: 0, revenue: 0, occupancyRate: 0 }
+        };
+    }
+}
+

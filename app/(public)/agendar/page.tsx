@@ -1,9 +1,13 @@
-import { getAllMockBranches } from "@/lib/mockDb";
+import { getAllSupabaseBranches, getAllSupabaseServices, getAllSupabaseBarbers } from "@/lib/supabaseDb";
 import { BookingWizard } from "@/components/booking/BookingWizard";
 import { Suspense } from "react";
 
 export default async function AgendarPage() {
-    const branches = await getAllMockBranches();
+    const [branches, services, barbers] = await Promise.all([
+        getAllSupabaseBranches(),
+        getAllSupabaseServices(),
+        getAllSupabaseBarbers()
+    ]);
 
     return (
         <div className="min-h-screen bg-stone-950 px-4 py-12 md:py-20 relative overflow-hidden">
@@ -20,7 +24,7 @@ export default async function AgendarPage() {
                         </div>
                     </div>
                 }>
-                    <BookingWizard branches={branches} />
+                    <BookingWizard branches={branches} services={services} barbers={barbers} />
                 </Suspense>
             </div>
         </div>
