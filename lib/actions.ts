@@ -45,6 +45,10 @@ export async function saveBookingAction(formData: {
         status: 'pending',
     });
 
+    const service = MOCK_SERVICES.find(s => s.id === formData.serviceId);
+    const barber = MOCK_BARBERS.find(b => b.id === formData.barberId);
+
+
     // Unified Notification
     await notify({
         type: 'APPOINTMENT_NEW',

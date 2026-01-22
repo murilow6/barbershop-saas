@@ -29,24 +29,26 @@ async function calculateClientFrequency(appointments: Appointment[]): Promise<nu
  */
 export async function identifyOverdueClients() {
     const clients = await getAllSupabaseClients();
-    const allReminders = await getAllSupabaseReminders();
+    // Verificar histórico de comunicações
+    const reminders = (await getAllSupabaseReminders()) as any[];
     const now = new Date();
 
     const overdue = [];
 
     for (const client of clients) {
+        const clientReminders = reminders.filter((r: any) => r.client_id === client.id && r.type === 'retention');
         const appointments = await getSupabaseAppointmentsByClientId(client.id);
         if (appointments.length === 0) continue;
 
         // Filtrar apenas agendamentos completados ou passados para análise
-        const completedAppts = appointments.filter(a =>
+        const completedAppts = appointments.filter((a: any) =>
             a.status === 'completed' || new Date(a.starts_at) < now
         );
 
         if (completedAppts.length === 0) continue;
 
         // Verificar se já existe um agendamento futuro
-        const futureAppt = appointments.find(a =>
+        const futureAppt = appointments.find((a: any) =>
             (a.status === 'pending' || a.status === 'confirmed') && new Date(a.starts_at) > now
         );
         if (futureAppt) continue;
@@ -65,7 +67,7 @@ export async function identifyOverdueClients() {
         // Se a data estimada já passou (ou está muito próxima, ex: hoje)
         if (estimatedNextDate <= now) {
             // Verificar se recebeu lembrete recente (últimos 7 dias para evitar spam)
-            const recentReminder = allReminders.find(r =>
+            const recentReminder = reminders.find((r: any) =>
                 r.client_id === client.id &&
                 (now.getTime() - new Date(r.sent_at).getTime()) < (7 * 24 * 60 * 60 * 1000)
             );

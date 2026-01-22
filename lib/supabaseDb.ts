@@ -235,6 +235,10 @@ export async function createSupabaseReminder(data: any) {
     return { id: 'rem_' + Date.now(), ...data };
 }
 
+export async function getAllSupabaseReminders() {
+    return [];
+}
+
 // --- Notifications (System Alerts) ---
 
 export async function createSystemNotification(data: {

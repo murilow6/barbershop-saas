@@ -12,7 +12,7 @@ export async function checkAndSendThankYouMessages() {
     const results = [];
 
     // Filter eligible appointments
-    const eligibleAppointments = appointments.filter(appt => {
+    const eligibleAppointments = appointments.filter((appt: any) => {
         // 1. Must be completed
         if (appt.status !== 'completed') return false;
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -77,11 +78,15 @@ export function BookingWizard({ branches = [] }: { branches?: Branch[] }) {
             });
 
             if (result.success) {
+                toast.success("Agendamento confirmado com sucesso!");
                 setAppointmentId(result.appointmentId || '');
                 setStep('confirmation');
+            } else {
+                toast.error("Erro ao realizar agendamento. Tente novamente.");
             }
         } catch (error) {
             console.error("Booking error:", error);
+            toast.error("Erro inesperado. Verifique sua conexão.");
         } finally {
             setLoading(false);
         }
